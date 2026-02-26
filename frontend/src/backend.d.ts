@@ -7,6 +7,13 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
+export class ExternalBlob {
+    getBytes(): Promise<Uint8Array<ArrayBuffer>>;
+    getDirectURL(): string;
+    static fromURL(url: string): ExternalBlob;
+    static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
+    withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
+}
 export type Time = bigint;
 export interface EmergencyRequest {
     requester: string;
@@ -60,9 +67,11 @@ export interface backendInterface {
         nearbyDonors: Array<UserProfile>;
         totalDonors: bigint;
     }>;
+    getSosImage(): Promise<ExternalBlob | null>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     registerUser(name: string, role: UserRole, bloodGroup: BloodGroup, phone: string, city: string, age: bigint, lastDonationDate: Time | null): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     smartDonorSearch(requiredBloodGroup: BloodGroup, city: string): Promise<Array<UserProfile>>;
+    uploadSosImage(blob: ExternalBlob): Promise<void>;
 }

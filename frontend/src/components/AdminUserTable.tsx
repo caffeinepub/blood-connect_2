@@ -12,7 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Trash2, Loader2, UserCheck, UserX } from 'lucide-react';
+import { Trash2, Loader2, UserCheck, UserX, AlertTriangle } from 'lucide-react';
 import type { Principal } from '@icp-sdk/core/principal';
 
 interface AdminUserTableProps {
@@ -21,10 +21,7 @@ interface AdminUserTableProps {
   isDeactivating: boolean;
 }
 
-// Note: Backend returns UserProfile without principal in the array.
-// We display users but cannot deactivate without principal.
-// This is a backend gap - see backend-gaps section.
-export default function AdminUserTable({ users, onDeactivate: _onDeactivate, isDeactivating: _isDeactivating }: AdminUserTableProps) {
+export default function AdminUserTable({ users, onDeactivate, isDeactivating }: AdminUserTableProps) {
   const [page, setPage] = useState(0);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
@@ -33,10 +30,30 @@ export default function AdminUserTable({ users, onDeactivate: _onDeactivate, isD
   const totalPages = Math.ceil(users.length / PAGE_SIZE);
   const paginatedUsers = users.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
+  const handleConfirmDeactivate = async () => {
+    if (!selectedUser) return;
+    // The backend's getAdminPanelData does not return principal IDs alongside user profiles.
+    // Until the backend is updated to return [Principal, UserProfile] pairs, we show a clear error.
+    setConfirmOpen(false);
+    // Attempt deactivation — will surface an error via the parent's toast handler
+    // since we cannot pass a real principal here.
+    // For now, show a user-friendly alert.
+    alert(
+      `Cannot remove "${selectedUser.name}" — the backend does not return the user's principal ID in the admin panel data. Please contact the developer to update the backend.`
+    );
+  };
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-bold">All Users ({users.length})</h3>
+      </div>
+
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
+        <AlertTriangle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+        <p className="text-xs text-amber-800">
+          <strong>Note:</strong> Donor removal requires the backend to return user principal IDs. This feature will be fully functional once the backend is updated.
+        </p>
       </div>
 
       {users.length === 0 ? (
@@ -76,11 +93,15 @@ export default function AdminUserTable({ users, onDeactivate: _onDeactivate, isD
                     setSelectedUser(user);
                     setConfirmOpen(true);
                   }}
-                  disabled={!user.active}
+                  disabled={!user.active || isDeactivating}
                   className="shrink-0 p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-red-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   title="Deactivate user"
                 >
-                  <Trash2 size={16} />
+                  {isDeactivating ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Trash2 size={16} />
+                  )}
                 </button>
               </div>
             ))}
@@ -118,17 +139,16 @@ export default function AdminUserTable({ users, onDeactivate: _onDeactivate, isD
             <AlertDialogTitle>Deactivate User?</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to deactivate <strong>{selectedUser?.name}</strong>? They will be hidden from donor search results.
-              <br /><br />
-              <span className="text-xs text-muted-foreground">Note: Deactivation requires admin access and the user's principal ID.</span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeactivating}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={() => setConfirmOpen(false)}
+              onClick={handleConfirmDeactivate}
+              disabled={isDeactivating}
             >
-              {_isDeactivating ? (
+              {isDeactivating ? (
                 <><Loader2 size={14} className="animate-spin mr-2" /> Deactivating...</>
               ) : (
                 'Deactivate'

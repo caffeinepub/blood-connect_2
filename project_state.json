@@ -1,85 +1,18 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Blood Connect is a mobile app connecting blood donors and receivers in emergency situations across India, targeting Tamil Nadu and rural users. Features include donor/receiver registration, AI-powered donor search, SOS emergency request button with push notifications, AI eligibility checker, WhatsApp direct connect, dashboard, bilingual support (Tamil/English), and an admin panel. Design is clean medical theme (white + red), optimized for low-end Android devices.",
-  "architectural_notes": [
-    "Target platform: Mobile (Android-first), optimized for low-end Android devices",
-    "Design: Clean medical theme, white + red color palette, large fonts, simple buttons for rural users",
-    "Target users: Tamil Nadu and rural India; bilingual UI (Tamil primary, English secondary)"
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "SOS button not displaying correctly (needs to be cleared/fixed)"
   ],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Blood Connect app logo — a clean medical-style icon with a red heart containing a blood drop, white background, minimal flat design (blood-connect-logo.dim_256x256.png)\n- Red SOS emergency button graphic — bold red circular button with white 'SOS' text and pulse ring effect (sos-button.dim_256x256.png)",
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-implement-a-user-registration-system-where-users-sign-up-as-either-a-donor-or-receiver-collect-full-name-blood-group-a-a-b-b-o-o-ab-ab-phone-number-city-location-age-include-an-optional-field-for-last-donation-date-store-all-user-profiles-in-the-backend",
-      "title": "Implement a user registration system where users sign up as either a Donor or Receiver. Collect: full name, blood group (A+, A-, B+, B-, O+, O-, AB+, AB-), phone number, city/location, age. Include an optional field for last donation date. Store all user profiles in the backend.",
+      "id": "feature-remove-or-hide-the-sos-button-from-the-home-page-so-it-no-longer-appears-in-the-ui-if-the-sos-button-section-is-conditionally-rendered-based-on-an-uploaded-banner-image-or-other-state-ensure-the-button-does-not-show-when-it-should-be-hidden-clear-any-leftover-state-conditional-rendering-logic-or-ui-elements-that-cause-the-sos-button-to-display-unexpectedly",
+      "title": "Remove or hide the SOS button from the home page so it no longer appears in the UI. If the SOS button section is conditionally rendered based on an uploaded banner image or other state, ensure the button does not show when it should be hidden. Clear any leftover state, conditional rendering logic, or UI elements that cause the SOS button to display unexpectedly.",
       "reqIds": [
         "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-a-smart-donor-search-screen-where-a-user-enters-a-required-blood-group-and-city-the-backend-returns-matching-donors-sorted-by-last-active-time-display-an-available-now-badge-on-donors-who-registered-or-updated-their-profile-within-the-last-24-hours-show-each-donor-s-name-blood-group-city-and-phone-number-in-the-results-list",
-      "title": "Build a Smart Donor Search screen where a user enters a required blood group and city. The backend returns matching donors sorted by last active time. Display an 'Available Now' badge on donors who registered or updated their profile within the last 24 hours. Show each donor's name, blood group, city, and phone number in the results list.",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-prominent-red-sos-emergency-request-button-on-the-home-screen-when-pressed-it-creates-an-urgent-blood-request-record-in-the-backend-with-the-requester-s-blood-group-city-and-timestamp-and-displays-a-confirmation-message-that-the-request-has-been-broadcast-to-nearby-matching-donors",
-      "title": "Add a prominent red SOS Emergency Request button on the home screen. When pressed, it creates an urgent blood request record in the backend (with the requester's blood group, city, and timestamp) and displays a confirmation message that the request has been broadcast to nearby matching donors.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-an-ai-eligibility-checker-feature-as-a-step-by-step-questionnaire-ask-age-weight-kg-date-of-last-donation-and-current-health-conditions-checkboxes-fever-recent-surgery-pregnancy-medication-none-based-on-the-answers-display-either-eligible-to-donate-or-not-eligible-with-a-reason-and-if-eligible-show-the-next-recommended-donation-date-minimum-3-months-after-last-donation",
-      "title": "Build an AI Eligibility Checker feature as a step-by-step questionnaire. Ask: age, weight (kg), date of last donation, and current health conditions (checkboxes: fever, recent surgery, pregnancy, medication, none). Based on the answers, display either 'Eligible to Donate' or 'Not Eligible' with a reason, and if eligible, show the next recommended donation date (minimum 3 months after last donation).",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-on-each-donor-result-card-in-the-search-results-add-a-one-tap-contact-via-whatsapp-button-that-opens-a-pre-filled-whatsapp-message-to-the-donor-s-phone-number-using-the-wa-me-deep-link-https-wa-me-phone-number-text-with-a-default-message-hi-i-found-your-profile-on-blood-connect-i-urgently-need-blood-can-you-help",
-      "title": "On each donor result card in the search results, add a one-tap 'Contact via WhatsApp' button that opens a pre-filled WhatsApp message to the donor's phone number using the wa.me deep link (https://wa.me/<phone_number>?text=...) with a default message: 'Hi, I found your profile on Blood Connect. I urgently need blood. Can you help?'",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-a-dashboard-screen-showing-total-registered-donors-count-a-list-of-donors-in-the-current-user-s-city-nearby-donors-and-the-5-most-recent-emergency-requests-blood-group-city-time-ago-fetch-all-counts-and-lists-from-the-backend",
-      "title": "Build a Dashboard screen showing: total registered donors count, a list of donors in the current user's city (nearby donors), and the 5 most recent emergency requests (blood group, city, time ago). Fetch all counts and lists from the backend.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-an-admin-panel-accessible-via-a-separate-route-admin-it-should-display-a-paginated-list-of-all-registered-users-name-role-blood-group-city-phone-a-button-to-remove-deactivate-any-user-mark-as-removed-in-backend-do-not-delete-and-a-list-of-all-emergency-requests-with-requester-name-blood-group-city-and-timestamp",
-      "title": "Build an Admin Panel accessible via a separate route (/admin). It should display: a paginated list of all registered users (name, role, blood group, city, phone), a button to remove/deactivate any user (mark as removed in backend, do not delete), and a list of all emergency requests with requester name, blood group, city, and timestamp.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-clean-medical-design-theme-throughout-the-app-white-backgrounds-red-dc2626-as-the-primary-accent-color-large-readable-fonts-minimum-16px-body-text-large-touch-targets-minimum-48px-tall-buttons-and-a-simple-card-based-layout-the-app-should-feel-usable-on-small-screens-mobile-first-max-430px-wide-layout-include-english-as-the-display-language-for-all-ui-text",
-      "title": "Apply a clean medical design theme throughout the app: white backgrounds, red (#DC2626) as the primary accent color, large readable fonts (minimum 16px body text), large touch targets (minimum 48px tall buttons), and a simple card-based layout. The app should feel usable on small screens (mobile-first, max 430px wide layout). Include English as the display language for all UI text.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-use-a-generated-blood-connect-logo-image-as-the-app-header-logo-on-the-home-screen-and-navigation-bar",
-      "title": "Use a generated Blood Connect logo image as the app header logo on the home screen and navigation bar.",
-      "reqIds": [
-        "REQ-9"
       ],
       "version": 1
     }
@@ -87,55 +20,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "User Registration – sign up as Donor or Receiver with name, blood group, phone, city, age, optional last donation date",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Smart Donor Search – AI-powered search by blood group and location, sorted by distance and last active time, with Available Now badge",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Emergency SOS Button – big red button on home screen that creates urgent blood request, notifies nearby donors via push notification",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "AI Eligibility Checker – asks age, weight, last donation, health conditions; returns eligible/not eligible and next donation date",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Live Chat / WhatsApp Connect – one-tap WhatsApp button for receiver to directly contact donor",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Dashboard – shows total donors count, nearby donors, and recent emergency requests",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Bilingual support – primary Tamil, secondary English throughout the app",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-8",
-      "summary": "Admin Panel – view all users, remove fake donors, view emergency requests",
+      "summary": "Fix/clear SOS button display issue",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Blood Connect",
+  "projectName": "Clear/Fix SOS Button Display Issue on Home Page",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

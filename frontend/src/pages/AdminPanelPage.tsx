@@ -1,16 +1,24 @@
-import { useGetAdminPanelData } from '../hooks/useQueries';
+import { useGetAdminPanelData, useDeactivateUser } from '../hooks/useQueries';
 import AdminUserTable from '../components/AdminUserTable';
 import AdminEmergencyRequestsTable from '../components/AdminEmergencyRequestsTable';
+import AdminSosImageUpload from '../components/AdminSosImageUpload';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Shield, AlertTriangle } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Principal } from '@icp-sdk/core/principal';
 
 export default function AdminPanelPage() {
   const { data, isLoading, error } = useGetAdminPanelData();
+  const deactivateMutation = useDeactivateUser();
 
-  const handleDeactivate = async (_principal: Principal) => {
-    // Deactivation requires principal ID which is not returned by getAdminPanelData
-    // See backend-gaps for details
+  const handleDeactivate = async (principal: Principal) => {
+    try {
+      await deactivateMutation.mutateAsync(principal);
+      toast.success('User deactivated successfully.');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to deactivate user.';
+      toast.error(msg);
+    }
   };
 
   return (
@@ -33,7 +41,7 @@ export default function AdminPanelPage() {
             <p className="text-sm text-muted-foreground mt-1">
               {error instanceof Error && error.message.includes('Unauthorized')
                 ? 'You need admin privileges to access this panel. Use the admin token URL parameter to gain access.'
-                : error.message}
+                : error instanceof Error ? error.message : 'An error occurred.'}
             </p>
           </div>
         </div>
@@ -50,6 +58,7 @@ export default function AdminPanelPage() {
 
       {data && (
         <>
+          {/* Stats */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-secondary rounded-2xl p-4 text-center border border-border">
               <p className="text-3xl font-black text-primary">{data.users.length}</p>
@@ -61,12 +70,17 @@ export default function AdminPanelPage() {
             </div>
           </div>
 
+          {/* SOS Image Upload Setting */}
+          <AdminSosImageUpload />
+
+          {/* User Table */}
           <AdminUserTable
             users={data.users}
             onDeactivate={handleDeactivate}
-            isDeactivating={false}
+            isDeactivating={deactivateMutation.isPending}
           />
 
+          {/* Emergency Requests Table */}
           <AdminEmergencyRequestsTable requests={data.emergencyRequests} />
         </>
       )}

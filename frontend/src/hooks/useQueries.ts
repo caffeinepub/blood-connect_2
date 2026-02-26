@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { BloodGroup, UserProfile, UserRole } from '../backend';
+import { BloodGroup, UserProfile, UserRole, ExternalBlob } from '../backend';
 import type { Principal } from '@icp-sdk/core/principal';
 
 // ─── Profile ────────────────────────────────────────────────────────────────
@@ -158,6 +158,46 @@ export function useDeactivateUser() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminPanelData'] });
       queryClient.invalidateQueries({ queryKey: ['dashboardData'] });
+    },
+  });
+}
+
+// ─── SOS Image ───────────────────────────────────────────────────────────────
+
+export function useGetSosImage() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<ExternalBlob | null>({
+    queryKey: ['sosImage'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getSosImage();
+    },
+    enabled: !!actor && !actorFetching,
+  });
+}
+
+export function useUploadSosImage() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      blob,
+      onProgress,
+    }: {
+      blob: Uint8Array<ArrayBuffer>;
+      onProgress?: (pct: number) => void;
+    }) => {
+      if (!actor) throw new Error('Actor not available');
+      let externalBlob = ExternalBlob.fromBytes(blob);
+      if (onProgress) {
+        externalBlob = externalBlob.withUploadProgress(onProgress);
+      }
+      return actor.uploadSosImage(externalBlob);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sosImage'] });
     },
   });
 }

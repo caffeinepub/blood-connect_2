@@ -6,6 +6,10 @@ import Time "mo:core/Time";
 import List "mo:core/List";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
+import MixinStorage "blob-storage/Mixin";
+import Storage "blob-storage/Storage";
+
+
 
 actor {
   type BloodGroup = {
@@ -46,9 +50,42 @@ actor {
 
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
+  include MixinStorage();
 
   let users = Map.empty<Principal, UserProfile>();
   let emergencyRequests = List.empty<EmergencyRequest>();
+
+  type SosImage = {
+    file : Storage.ExternalBlob;
+    uploadedAt : Time.Time;
+  };
+
+  var emergencySosImage : ?SosImage = null;
+
+  // Get the image for the SOS section
+  public query ({ caller }) func getSosImage() : async ?Storage.ExternalBlob {
+    switch (emergencySosImage) {
+      case (null) { null };
+      case (?image) { ?image.file };
+    };
+  };
+
+  // Admin-only function to upload SOS image
+  public shared ({ caller }) func uploadSosImage(blob : Storage.ExternalBlob) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Admin access required.");
+    };
+
+    // No backend file extension validation needed, since the UI must guarantee correct file type.
+
+    let newImage = {
+      file = blob;
+      uploadedAt = Time.now();
+    };
+
+    // Store the new image (overwriting any existing one)
+    emergencySosImage := ?newImage;
+  };
 
   // Required by instructions: get the caller's own profile
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {

@@ -1,230 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Blood Connect – Emergency Blood Donor-Receiver Platform",
-  "projectName": "Blood Connect",
+  "title": "Clear/Fix SOS Button Display Issue on Home Page",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Implement a user registration system where users sign up as either a Donor or Receiver. Collect: full name, blood group (A+, A-, B+, B-, O+, O-, AB+, AB-), phone number, city/location, age. Include an optional field for last donation date. Store all user profiles in the backend.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "User can sign up as Donor or Receiver",
-          "Collect: Name, Blood Group, Phone Number, Location (City), Age",
-          "Optional: Last donation date"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can choose Donor or Receiver role during registration",
-        "All required fields (name, blood group, phone, city, age) are validated before submission",
-        "Last donation date field is optional and skippable",
-        "Registered user profiles are persisted in the Motoko backend",
-        "Duplicate phone numbers are rejected with an error message"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Build a Smart Donor Search screen where a user enters a required blood group and city. The backend returns matching donors sorted by last active time. Display an 'Available Now' badge on donors who registered or updated their profile within the last 24 hours. Show each donor's name, blood group, city, and phone number in the results list.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "User enters required blood group and location",
-          "AI should show nearest available donors",
-          "Sort by distance and last active time",
-          "Show 'Available Now' badge"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Search form accepts blood group selection and city text input",
-        "Results list shows only donors matching the selected blood group and city",
-        "Results are sorted by most recently active first",
-        "Donors active within 24 hours display a green 'Available Now' badge",
-        "Each result card shows donor name, blood group, city, and phone number"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Add a prominent red SOS Emergency Request button on the home screen. When pressed, it creates an urgent blood request record in the backend (with the requester's blood group, city, and timestamp) and displays a confirmation message that the request has been broadcast to nearby matching donors.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Big red SOS button on home screen",
-          "Creates urgent blood request",
-          "Notifies nearby matching donors"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Home screen displays a large, visually distinct red SOS button",
-        "Pressing the button prompts confirmation before submitting",
-        "On confirmation, an emergency request record is created in the backend with blood group, city, and timestamp",
-        "A success message confirms the request was sent",
-        "Emergency requests are queryable separately from normal requests in the backend"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Build an AI Eligibility Checker feature as a step-by-step questionnaire. Ask: age, weight (kg), date of last donation, and current health conditions (checkboxes: fever, recent surgery, pregnancy, medication, none). Based on the answers, display either 'Eligible to Donate' or 'Not Eligible' with a reason, and if eligible, show the next recommended donation date (minimum 3 months after last donation).",
+      "text": "Remove or hide the SOS button from the home page so it no longer appears in the UI. If the SOS button section is conditionally rendered based on an uploaded banner image or other state, ensure the button does not show when it should be hidden. Clear any leftover state, conditional rendering logic, or UI elements that cause the SOS button to display unexpectedly.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-4"
         ],
         "quotes": [
-          "Ask simple questions: Age, Weight, Last donation, Health conditions",
-          "AI tells: Eligible / Not Eligible",
-          "Next possible donation date"
+          "Bust sos button showing please clear"
         ]
       },
       "acceptanceCriteria": [
-        "Questionnaire is presented one step at a time with progress indication",
-        "Age under 18 or over 65 results in 'Not Eligible'",
-        "Weight under 50 kg results in 'Not Eligible'",
-        "Any disqualifying health condition (fever, recent surgery, pregnancy, active medication) results in 'Not Eligible' with the specific reason shown",
-        "If last donation was less than 3 months ago, user is shown the next eligible donation date",
-        "Eligible users see a green 'Eligible to Donate' result with the next donation date"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "On each donor result card in the search results, add a one-tap 'Contact via WhatsApp' button that opens a pre-filled WhatsApp message to the donor's phone number using the wa.me deep link (https://wa.me/<phone_number>?text=...) with a default message: 'Hi, I found your profile on Blood Connect. I urgently need blood. Can you help?'",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Receiver can directly contact donor",
-          "One-tap WhatsApp button"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Each donor card in search results has a WhatsApp button",
-        "Tapping the button opens WhatsApp with the donor's number and a pre-filled message",
-        "The link uses the wa.me format with the donor's stored phone number",
-        "Button is visually styled in WhatsApp green"
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Build a Dashboard screen showing: total registered donors count, a list of donors in the current user's city (nearby donors), and the 5 most recent emergency requests (blood group, city, time ago). Fetch all counts and lists from the backend.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Total donors count",
-          "Nearby donors",
-          "Recent requests"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Dashboard displays total donor count as a prominent stat",
-        "Nearby donors section lists donors matching the logged-in user's city",
-        "Recent requests section shows the 5 latest emergency requests with blood group, city, and relative time",
-        "All data is fetched from backend queries",
-        "Dashboard refreshes data on each visit"
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Build an Admin Panel accessible via a separate route (/admin). It should display: a paginated list of all registered users (name, role, blood group, city, phone), a button to remove/deactivate any user (mark as removed in backend, do not delete), and a list of all emergency requests with requester name, blood group, city, and timestamp.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "View all users",
-          "Remove fake donors",
-          "View emergency requests"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Admin panel is accessible at /admin route",
-        "All users are listed with name, role, blood group, city, and phone",
-        "Each user row has a 'Remove' button that deactivates the user in the backend",
-        "Removed users are hidden from donor search results",
-        "All emergency requests are listed with requester info and timestamp",
-        "Admin panel has no authentication gate in this initial version (access by URL)"
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Apply a clean medical design theme throughout the app: white backgrounds, red (#DC2626) as the primary accent color, large readable fonts (minimum 16px body text), large touch targets (minimum 48px tall buttons), and a simple card-based layout. The app should feel usable on small screens (mobile-first, max 430px wide layout). Include English as the display language for all UI text.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Clean medical theme",
-          "White + Red color palette",
-          "Simple buttons for rural users",
-          "Large fonts",
-          "Make the app fast, lightweight, and usable even on low-end Android phones"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Primary accent color is red (#DC2626) used on buttons, badges, and highlights",
-        "All background surfaces are white or light gray",
-        "Body text is at minimum 16px; headings are at minimum 20px",
-        "All interactive buttons have a minimum height of 48px",
-        "Layout is centered and constrained to mobile width (max ~430px)",
-        "SOS button is visually dominant on the home screen",
-        "No blue or purple in the color palette"
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "text": "Use a generated Blood Connect logo image as the app header logo on the home screen and navigation bar.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Blood Connect"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Logo image is displayed in the app header",
-        "Logo is loaded from frontend/public/assets/generated/",
-        "Logo is appropriately sized for a mobile header (height ~40px)"
+        "The SOS button is not visible on the home page by default.",
+        "No pulsing SOS button or SOS emergency section is rendered unless the correct display condition is explicitly met.",
+        "The home page loads without any SOS button appearing unexpectedly.",
+        "No console errors or broken layout related to the SOS button section."
       ]
     }
   ],
   "constraints": [
-    "Do not integrate real-time WebSockets or push notification services — simulate notification confirmation with UI feedback only",
-    "Do not integrate external AI/LLM APIs — implement eligibility checker logic as rule-based frontend logic",
-    "Do not integrate external map/GPS services — use city name text for location matching",
-    "All backend state must be stored in the single Motoko actor",
-    "Do not add authentication beyond Internet Identity; admin panel access is unguarded in this version"
+    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui.",
+    "Do not break other home page features such as login/logout, quick-action links, or donor search."
   ],
   "nonGoals": [
-    "Real-time push notifications to mobile devices",
-    "SMS notifications via Twilio or any external SMS service",
-    "GPS-based geolocation or map rendering",
-    "Tamil language localization (UI will be in English only)",
-    "Payment or donation tracking features",
-    "In-app chat system (WhatsApp deep link is used instead)",
-    "Native Android/iOS app packaging — this is a web app only"
+    "Redesigning the home page layout beyond fixing the SOS button display.",
+    "Changing backend SOS image upload logic.",
+    "Modifying the AdminSosImageUpload component."
   ],
   "imageRequirements": {
-    "required": [
-      "Blood Connect app logo — a clean medical-style icon with a red heart containing a blood drop, white background, minimal flat design (blood-connect-logo.dim_256x256.png)",
-      "Red SOS emergency button graphic — bold red circular button with white 'SOS' text and pulse ring effect (sos-button.dim_256x256.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

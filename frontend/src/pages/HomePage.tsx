@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router';
-import SOSButton from '../components/SOSButton';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetCallerUserProfile } from '../hooks/useQueries';
 import { useQueryClient } from '@tanstack/react-query';
@@ -63,17 +62,6 @@ export default function HomePage() {
             Register as Donor / Receiver
           </Link>
         )}
-      </div>
-
-      {/* SOS Section */}
-      <div className="bg-white rounded-3xl border border-border shadow-card p-6 flex flex-col items-center gap-4">
-        <div className="text-center">
-          <h2 className="text-xl font-black text-primary">Emergency Blood Request</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Press SOS to instantly alert nearby donors
-          </p>
-        </div>
-        <SOSButton />
       </div>
 
       {/* Quick Links */}
