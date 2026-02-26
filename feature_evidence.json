@@ -1,0 +1,196 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-a-user-registration-system-where-users-sign-up-as-either-a-donor-or-receiver-collect-full-name-blood-group-a-a-b-b-o-o-ab-ab-phone-number-city-location-age-include-an-optional-field-for-last-donation-date-store-all-user-profiles-in-the-backend",
+      "featureTitle": "Implement a user registration system where users sign up as either a Donor or Receiver. Collect: full name, blood group (A+, A-, B+, B-, O+, O-, AB+, AB-), phone number, city/location, age. Include an optional field for last donation date. Store all user profiles in the backend.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/RegistrationForm.tsx",
+        "frontend/src/pages/RegisterPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-smart-donor-search-screen-where-a-user-enters-a-required-blood-group-and-city-the-backend-returns-matching-donors-sorted-by-last-active-time-display-an-available-now-badge-on-donors-who-registered-or-updated-their-profile-within-the-last-24-hours-show-each-donor-s-name-blood-group-city-and-phone-number-in-the-results-list",
+      "featureTitle": "Build a Smart Donor Search screen where a user enters a required blood group and city. The backend returns matching donors sorted by last active time. Display an 'Available Now' badge on donors who registered or updated their profile within the last 24 hours. Show each donor's name, blood group, city, and phone number in the results list.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DonorResultCard.tsx",
+        "frontend/src/components/DonorSearchForm.tsx",
+        "frontend/src/pages/DonorSearchPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-prominent-red-sos-emergency-request-button-on-the-home-screen-when-pressed-it-creates-an-urgent-blood-request-record-in-the-backend-with-the-requester-s-blood-group-city-and-timestamp-and-displays-a-confirmation-message-that-the-request-has-been-broadcast-to-nearby-matching-donors",
+      "featureTitle": "Add a prominent red SOS Emergency Request button on the home screen. When pressed, it creates an urgent blood request record in the backend (with the requester's blood group, city, and timestamp) and displays a confirmation message that the request has been broadcast to nearby matching donors.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/SOSButton.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-ai-eligibility-checker-feature-as-a-step-by-step-questionnaire-ask-age-weight-kg-date-of-last-donation-and-current-health-conditions-checkboxes-fever-recent-surgery-pregnancy-medication-none-based-on-the-answers-display-either-eligible-to-donate-or-not-eligible-with-a-reason-and-if-eligible-show-the-next-recommended-donation-date-minimum-3-months-after-last-donation",
+      "featureTitle": "Build an AI Eligibility Checker feature as a step-by-step questionnaire. Ask: age, weight (kg), date of last donation, and current health conditions (checkboxes: fever, recent surgery, pregnancy, medication, none). Based on the answers, display either 'Eligible to Donate' or 'Not Eligible' with a reason, and if eligible, show the next recommended donation date (minimum 3 months after last donation).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/EligibilityQuestionnaire.tsx",
+        "frontend/src/pages/EligibilityPage.tsx",
+        "frontend/src/utils/eligibilityChecker.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-on-each-donor-result-card-in-the-search-results-add-a-one-tap-contact-via-whatsapp-button-that-opens-a-pre-filled-whatsapp-message-to-the-donor-s-phone-number-using-the-wa-me-deep-link-https-wa-me-phone-number-text-with-a-default-message-hi-i-found-your-profile-on-blood-connect-i-urgently-need-blood-can-you-help",
+      "featureTitle": "On each donor result card in the search results, add a one-tap 'Contact via WhatsApp' button that opens a pre-filled WhatsApp message to the donor's phone number using the wa.me deep link (https://wa.me/<phone_number>?text=...) with a default message: 'Hi, I found your profile on Blood Connect. I urgently need blood. Can you help?'",
+      "files": [
+        "frontend/src/components/DonorResultCard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-dashboard-screen-showing-total-registered-donors-count-a-list-of-donors-in-the-current-user-s-city-nearby-donors-and-the-5-most-recent-emergency-requests-blood-group-city-time-ago-fetch-all-counts-and-lists-from-the-backend",
+      "featureTitle": "Build a Dashboard screen showing: total registered donors count, a list of donors in the current user's city (nearby donors), and the 5 most recent emergency requests (blood group, city, time ago). Fetch all counts and lists from the backend.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DashboardStats.tsx",
+        "frontend/src/components/NearbyDonorsList.tsx",
+        "frontend/src/components/RecentRequestsList.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-admin-panel-accessible-via-a-separate-route-admin-it-should-display-a-paginated-list-of-all-registered-users-name-role-blood-group-city-phone-a-button-to-remove-deactivate-any-user-mark-as-removed-in-backend-do-not-delete-and-a-list-of-all-emergency-requests-with-requester-name-blood-group-city-and-timestamp",
+      "featureTitle": "Build an Admin Panel accessible via a separate route (/admin). It should display: a paginated list of all registered users (name, role, blood group, city, phone), a button to remove/deactivate any user (mark as removed in backend, do not delete), and a list of all emergency requests with requester name, blood group, city, and timestamp.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AdminEmergencyRequestsTable.tsx",
+        "frontend/src/components/AdminUserTable.tsx",
+        "frontend/src/pages/AdminPanelPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-clean-medical-design-theme-throughout-the-app-white-backgrounds-red-dc2626-as-the-primary-accent-color-large-readable-fonts-minimum-16px-body-text-large-touch-targets-minimum-48px-tall-buttons-and-a-simple-card-based-layout-the-app-should-feel-usable-on-small-screens-mobile-first-max-430px-wide-layout-include-english-as-the-display-language-for-all-ui-text",
+      "featureTitle": "Apply a clean medical design theme throughout the app: white backgrounds, red (#DC2626) as the primary accent color, large readable fonts (minimum 16px body text), large touch targets (minimum 48px tall buttons), and a simple card-based layout. The app should feel usable on small screens (mobile-first, max 430px wide layout). Include English as the display language for all UI text.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-use-a-generated-blood-connect-logo-image-as-the-app-header-logo-on-the-home-screen-and-navigation-bar",
+      "featureTitle": "Use a generated Blood Connect logo image as the app header logo on the home screen and navigation bar.",
+      "files": [
+        "frontend/src/components/Layout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

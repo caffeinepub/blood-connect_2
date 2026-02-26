@@ -1,0 +1,97 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-26T10:38:11.929Z",
+  "summary": "The diff implements most of the required features for Blood Connect. Core functionality including registration, donor search, SOS button, eligibility checker, WhatsApp contact, dashboard, admin panel, design theme, and logo are all present. However, several specific acceptance criteria have gaps: duplicate phone number rejection is not implemented in the backend, donor search results are not sorted by last active time in the backend, the admin deactivate functionality is broken due to a known backend gap, and the ProfileSetupModal omits the optional last donation date field.",
+  "missing_requirements": [
+    {
+      "requirement": "Duplicate phone numbers are rejected with an error message",
+      "reason": "The backend registerUser function calls users.add(caller, profile) without any check for existing phone numbers. There is no deduplication logic on phone number in the diff.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "requirement": "Results are sorted by most recently active first",
+      "reason": "The smartDonorSearch backend function iterates users and adds matching results to a list but does not sort by lastActive before returning. No sort is applied.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "requirement": "Each user row has a Remove button that deactivates the user in the backend; Removed users are hidden from donor search results",
+      "reason": "AdminUserTable explicitly notes a backend gap: backend returns UserProfile without principal in the array so deactivation cannot be performed. The onDeactivate and isDeactivating props are prefixed with underscore indicating they are unused.",
+      "evidence": [
+        "frontend/src/components/AdminUserTable.tsx"
+      ]
+    },
+    {
+      "requirement": "Last donation date field is optional and skippable during registration via ProfileSetupModal",
+      "reason": "The ProfileSetupModal registration form does not include a last donation date field at all, hardcoding lastDonationDate: null. The RegistrationForm component does include it but the modal shown to new authenticated users omits this field.",
+      "evidence": [
+        "frontend/src/components/ProfileSetupModal.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "A Call button using a tel: link is added to each donor result card alongside the WhatsApp button",
+      "reason": "REQ-5 only specifies a WhatsApp contact button on donor cards. The diff adds an additional phone Call button which was not requested.",
+      "evidence": [
+        "frontend/src/components/DonorResultCard.tsx"
+      ]
+    },
+    {
+      "description": "Dark mode CSS theme variables are defined in the stylesheet",
+      "reason": "The build request specifies white backgrounds and a medical design theme but does not mention dark mode support. A full .dark CSS block with dark theme variables is included.",
+      "evidence": [
+        "frontend/src/index.css"
+      ]
+    },
+    {
+      "description": "MixinAuthorization and AccessControl with permission checks and admin token initialization are included beyond basic Internet Identity",
+      "reason": "The build request states do not add authentication beyond Internet Identity and admin panel access is unguarded in this version. The backend includes MixinAuthorization, AccessControl state, permission checks on several endpoints, and the frontend calls _initializeAccessControlWithSecret.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    }
+  ],
+  "confidence": 0.78,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AdminEmergencyRequestsTable.tsx",
+    "frontend/src/components/AdminUserTable.tsx",
+    "frontend/src/components/DashboardStats.tsx",
+    "frontend/src/components/DonorResultCard.tsx",
+    "frontend/src/components/DonorSearchForm.tsx",
+    "frontend/src/components/EligibilityQuestionnaire.tsx",
+    "frontend/src/components/Layout.tsx",
+    "frontend/src/components/NearbyDonorsList.tsx",
+    "frontend/src/components/ProfileSetupModal.tsx",
+    "frontend/src/components/RecentRequestsList.tsx",
+    "frontend/src/components/RegistrationForm.tsx",
+    "frontend/src/components/SOSButton.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/bloodGroup.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminPanelPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/DonorSearchPage.tsx",
+    "frontend/src/pages/EligibilityPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/RegisterPage.tsx",
+    "frontend/src/utils/eligibilityChecker.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}
